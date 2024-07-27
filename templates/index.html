@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Enhanced Content Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>AI-Enhanced Content Generator</h1>
+    <div class="container">
+        <form id="generate-form">
+            <h2>Text Generation</h2>
+            <textarea name="prompt" placeholder="Enter your prompt here..." required></textarea>
+            <button type="submit">Generate Text</button>
+            <div id="generated-text"></div>
+        </form>
+
+        <form id="summarize-form">
+            <h2>Text Summarization</h2>
+            <textarea name="text" placeholder="Enter text to summarize..." required></textarea>
+            <button type="submit">Summarize Text</button>
+            <div id="summary"></div>
+        </form>
+
+        <form id="translate-form">
+            <h2>Language Translation</h2>
+            <textarea name="text" placeholder="Enter text to translate..." required></textarea>
+            <input type="text" name="language" placeholder="Target language (e.g., French)" required>
+            <button type="submit">Translate Text</button>
+            <div id="translation"></div>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Handle form submissions
+        $(document).ready(function() {
+            $('#generate-form').submit(function(event) {
+                event.preventDefault();
+                $.post('/generate', $(this).serialize(), function(data) {
+                    $('#generated-text').text(data.generated_text);
+                });
+            });
+
+            $('#summarize-form').submit(function(event) {
+                event.preventDefault();
+                $.post('/summarize', $(this).serialize(), function(data) {
+                    $('#summary').text(data.summary);
+                });
+            });
+
+            $('#translate-form').submit(function(event) {
+                event.preventDefault();
+                $.post('/translate', $(this).serialize(), function(data) {
+                    $('#translation').text(data.translation);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
